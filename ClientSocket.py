@@ -1,5 +1,5 @@
 
-from SimpleProtocol import send_msg, recv_msg, msg_to_int, int_to_msg, SimpleProtocolException
+from SimpleProtocol import send_msg, recv_msg, SimpleProtocolException
 
 class ClientSocket:
 	def __init__(self):
