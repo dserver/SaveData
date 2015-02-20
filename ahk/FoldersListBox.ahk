@@ -32,25 +32,30 @@ IfWinExist, Save As
 	{
 		SaveFolder := "V3075"
 		;SaveFolder := %1% ; SaveFolder contains the string name of the folder to save in
-		; Call LB_SELSTRING
-		SendMessage, 396,-1, &SaveFolder, ListBox2 , "Save As" 
+		; Call LB_SELECTSTRING
+		SendMessage, 396,-1, &SaveFolder, ListBox2 , Save As
 		ItemIndex := ErrorLevel
 
+		if (%ItemIndex% == -1){
+			return
+		}
 		VarSetCapacity(Rect, 16) ; rect structure is held in Rect variable
 
+		; Get ListBox2's position relative to the Save As windo
+		ControlGetPos, X_LB, Y_LB, ListBox2, Save As
 		; Call LB_GETITEMRECT
-		SendMessage, 408, %ItemIndex%, &Rect, ListBox2, "Save As"
+		SendMessage, 408, %ItemIndex%, &Rect, ListBox2, Save As
 		x_upper_left := NumGet(Rect,0,true)
 		y_upper_left := NumGet(Rect,4,true)
 		x_lower_right := NumGet(Rect,8,true)
 		y_lower_right := NumGet(Rect,12,true)
 
 		; Calculate point to click
-		x_mid := x_lower_right - x_upper_left
-		y_mid := y_lower_right - y_upper_left
+		x_mid := x_lower_right - x_upper_left + X_LB
+		y_mid := y_lower_right - y_upper_left + Y_LB
 
 		MouseMove, x_mid, y_mid
-		Click 2
+		;Click 2
 
 
 	}
