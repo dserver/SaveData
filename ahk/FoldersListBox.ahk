@@ -42,7 +42,7 @@ IfWinExist, Save As
 		VarSetCapacity(Rect, 16) ; rect structure is held in Rect variable
 
 		; Get ListBox2's position relative to the Save As windo
-		ControlGetPos, X_LB, Y_LB, ListBox2, Save As
+		ControlGetPos, X_LB, Y_LB, ListBox2, "Save As"
 		; Call LB_GETITEMRECT
 		SendMessage, 408, %ItemIndex%, &Rect, ListBox2, Save As
 		x_upper_left := NumGet(Rect,0,true)
@@ -51,8 +51,8 @@ IfWinExist, Save As
 		y_lower_right := NumGet(Rect,12,true)
 
 		; Calculate point to click
-		x_mid := x_lower_right - x_upper_left + X_LB
-		y_mid := y_lower_right - y_upper_left + Y_LB
+		x_mid := x_lower_right - x_upper_left + %X_LB%
+		y_mid := y_lower_right - y_upper_left + %Y_LB%
 
 		MouseMove, x_mid, y_mid
 		;Click 2
