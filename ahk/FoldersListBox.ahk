@@ -13,7 +13,7 @@
 ;			It will also return the index of the selected item, which will be used next.
 ;		2. Call LB_GETITEMRECT. The function takes the index from above and a pointer to a RECT
 ;			structure. The RECT structure will contain the LONG integers for each of these values:
-				1. left = x-coordinate of upper-left corner of the item
+				;1. left = x-coordinate of upper-left corner of the item
 				;2. top = y-coordinate of upper-left corner of the item
 				;3. right = x-coordinate of lower-right corner of the item
 				;4. bottom = y-coordinate of the lower-right corner of the item
@@ -28,7 +28,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ;SaveFolder := %1% ; SaveFolder contains the string name of the folder to save in
-SaveFolder := "C:\DataPage\Dim'l  Shortcuts"
+SaveFolder := "c:\DATAPAGE\Dim'l  Shortcuts"
 ; Call LB_SELSTRING
 SendMessage, 396,-1, &SaveFolder, ListBox2 , "Save As" 
 ItemIndex := ErrorLevel
