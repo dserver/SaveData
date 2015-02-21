@@ -41,7 +41,7 @@ IfWinExist, Save As
 		}
 		VarSetCapacity(Rect, 16) ; rect structure is held in Rect variable
 
-		; Get ListBox2's position relative to the Save As windo
+		; Get ListBox2's position relative to the Save As window
 		ControlGetPos, X_LB, Y_LB, ListBox2, "Save As"
 		; Call LB_GETITEMRECT
 		SendMessage, 408, %ItemIndex%, &Rect, ListBox2, Save As

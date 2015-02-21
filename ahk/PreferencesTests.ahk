@@ -36,8 +36,13 @@ IfWinExist, Preferences
 		x_lower_right := NumGet(Rect,8,true)
 		y_lower_right := NumGet(Rect,12,true)
 		
-		FileAppend, "X_PREF | Y_PREF | W_PREF | H_PREF | X_CTRL | Y_CTRL | W_CTRL | H_CTRL | x_upper_left | y_upper_left | x_lower_right | y_lower_right ", PrefTest.txt
-		FileAppend, %X_PREF%%SP%%Y_PREF%%SP%%W_PREF%%SP%%H_PREF%%SP%%X_CTRL%%SP%%Y_CTRL%%SP%%W_CTRL%%SP%%H_CTRL%%SP%%x_upper_left%%SP%%y_upper_left%%SP%%x_lower_right%%SP%%y_lower_right%, PrefTest.txt
+		;FileAppend, "X_PREF | Y_PREF | W_PREF | H_PREF | X_CTRL | Y_CTRL | W_CTRL | H_CTRL | x_upper_left | y_upper_left | x_lower_right | y_lower_right ", PrefTest.txt
+		;FileAppend, %X_PREF%%SP%%Y_PREF%%SP%%W_PREF%%SP%%H_PREF%%SP%%X_CTRL%%SP%%Y_CTRL%%SP%%W_CTRL%%SP%%H_CTRL%%SP%%x_upper_left%%SP%%y_upper_left%%SP%%x_lower_right%%SP%%y_lower_right%, PrefTest.txt
+		
+		x_mid := x_lower_right - x_upper_left + X_CTRL
+		y_mid := y_lower_right - y_upper_left + Y_CTRL
+
+		MouseMove, (x_upper_left + X_CTRL + 10), (y_upper_left + Y_CTRL + 10)
 	}
 }
 
