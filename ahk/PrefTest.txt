@@ -1,0 +1,2 @@
+"X_PREF | Y_PREF | W_PREF | H_PREF | X_CTRL | Y_CTRL | W_CTRL | H_CTRL | x_upper_left | y_upper_left | x_lower_right | y_lower_right 
+"132" "324" "846" "382" "18" "37" "120" "301" "0" "91" "116" "104
