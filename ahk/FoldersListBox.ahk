@@ -50,12 +50,8 @@ IfWinExist, Save As
 		x_lower_right := NumGet(Rect,8,true)
 		y_lower_right := NumGet(Rect,12,true)
 
-		; Calculate point to click
-		x_mid := x_lower_right - x_upper_left + %X_LB%
-		y_mid := y_lower_right - y_upper_left + %Y_LB%
-
-		MouseMove, x_mid, y_mid
-		;Click 2
+		MouseMove, (x_upper_left + X_LB + 10), (y_upper_left + Y_LB + 10)
+		Click 2
 
 
 	}

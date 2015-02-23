@@ -25,6 +25,10 @@ IfWinExist, Preferences
 		SP = " "
 		; get position of "Tab Settings" from the listbox
 		SaveFolder := "Tab Settings"
+		T := %1%
+		ListVars
+		Pause
+		;SaveFolder := %1%
 		; Call LB_SELECTSTRING
 		SendMessage, 396,-1, &SaveFolder, ListBox1 , Preferences
 		ItemIndex := ErrorLevel
