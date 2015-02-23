@@ -28,6 +28,7 @@ class ClientGui:
 		self.draw_transactions_screen()
 		
 	def draw_save_as_screen(self):
+		self.remove_transactions_screen()
 		self.FolderListBox.grid(row=1, column=1)
 		self.FileNameEntry.grid(row=2, column=1)
 		self.SaveButton.grid(row=0, column=0)
@@ -84,5 +85,9 @@ class ClientGui:
 	def start_tkinter_thread(self):
 		tkinter_thread = threading.Thread(target=self.top.mainloop)
 		tkinter_thread.start()
-		
+
+if __name__ == "__main__":
+	g = ClientGui()
+	g.start_tkinter_thread()
+	g.SendButton.configure(command=g.draw_save_as_screen)
 		
