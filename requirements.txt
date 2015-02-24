@@ -1,0 +1,5 @@
+
+##### Programmer layer
+All errors should have a numeric error code with an all caps label (similar to windows codes) for easy exception handling.
+Exceptions should be thrown low, but the except clause should be in higher level functions. Example: The network times out, so a TimeoutError is thrown,
+but is caught in the layer that hands the data to the GUI.
