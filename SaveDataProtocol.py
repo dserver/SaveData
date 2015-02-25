@@ -1,0 +1,7 @@
+
+client_msg = {
+	"RECV_PARTSTRANS":1,
+	"SEND_PARTSTRANS":2,
+	"RECV_SAVEAS":3,
+	"SEND_SAVEAS", 4
+}
