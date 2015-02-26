@@ -3,3 +3,15 @@
 All errors should have a numeric error code with an all caps label (similar to windows codes) for easy exception handling.
 Exceptions should be thrown low, but the except clause should be in higher level functions. Example: The network times out, so a TimeoutError is thrown,
 but is caught in the layer that hands the data to the GUI.
+
+#### Features (from user perspective)
+The server side program should have a simple gui for easy starting and restarting.
+Both client side and server side programs should log all their errors into a file. The file should be easily displayable from a menu button in both GUI applications.
+The application should be as fast as possible.
+The user on the client side should be able to easily change their mind about which part they want to save data for. It should be as simple as a "Go back" button.
+
+
+#### Implementation notes
+
+Upon starting the server side program, the program should cache the parts and transactions for each part rather than get all of them on each client request. Since a single program will have many transactions
+(most old) it is stupid to loop through all of them each time. The program should also cache a sample picture of the report so that the user can tell if the transaction is for the correct lot number.
