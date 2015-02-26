@@ -1,4 +1,4 @@
-import win32gui, win32process
+import win32gui, win32process, win32ui
 import sys
 import re
 
@@ -35,6 +35,7 @@ def enum_child_callback(hwnd, extra):
         global _child_hwnd
         found = True
         _child_hwnd = hwnd
+        #print wintitle
         return False # needed to stop enumerating through windows
     else:
         found = False
@@ -52,12 +53,25 @@ if not found:
 
 
 (threadId, processId) = win32process.GetWindowThreadProcessId(_hwnd)
-
-find_child_window(threadId, "Preferences")
+try:
+    find_child_window(threadId, "Preferences")
+except:
+    pass # upon returning false in the enum_child_callback and error will be raised
 
 if not found:
     print "Couldn't find child window"
     sys.exit(0)
 
 print "Found preferences window"
-print _child_hwnd
+
+try:
+    # try to find Listbox2 in Preferences window
+    cwnd = win32ui.CreateWindowFromHandle(_hwnd)
+    cwnd.SetActiveWindow()
+    lb2 = win32ui.FindWindowEx(cwnd, None, r"ListBox1", "Preferences")
+except win32ui.error as e:
+    print e
+    print "Couldn't find listbox1 control"
+    sys.exit(0)
+
+print "Found ListBox1 control!"
