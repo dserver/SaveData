@@ -1,18 +1,15 @@
-import win32gui, win32process, win32ui
+import win32gui, win32process, win32ui, win32api
 import sys
 import re
-
-class Window:
-    def __init__(self):
-        self._hwnd = None
-        self._text = None
+import ctypes
 
 
 # Globals
 found = False
 _hwnd = None
 _child_hwnd = None
-
+_listbox1_hwnd = None
+LB_SELECTSTRING = 396
 
 def enum_window_callback(hwnd, extra):
     find_title = re.compile(re.escape(extra[0]))
@@ -51,7 +48,7 @@ find_window("Notepad++")
 if not found:
     sys.exit(0)
 
-
+# The thread returned is the same thread returned if you use _child_hwnd
 (threadId, processId) = win32process.GetWindowThreadProcessId(_hwnd)
 try:
     find_child_window(threadId, "Preferences")
@@ -64,14 +61,22 @@ if not found:
 
 print "Found preferences window"
 
+
 try:
-    # try to find Listbox2 in Preferences window
-    cwnd = win32ui.CreateWindowFromHandle(_hwnd)
-    cwnd.SetActiveWindow()
-    lb2 = win32ui.FindWindowEx(cwnd, None, r"ListBox1", "Preferences")
-except win32ui.error as e:
+    _listbox1_hwnd = win32ui.FindWindow(None, r"Print")
+    if _listbox1_hwnd == 0:
+        raise Exception("Listbox1 wasn't found!")
+except Exception as e:
     print e
-    print "Couldn't find listbox1 control"
     sys.exit(0)
 
-print "Found ListBox1 control!"
+print "Found Listbox1"
+text = "Print"
+try:
+    er = win32api.SendMessage(_listbox1_hwnd, 396,-1,r"Print")
+    if er == 0:
+        raise Exception("Text from listbox 1 was not selected")
+except Exception as e:
+    print e
+    sys.exit(0)
+print "Selected text item from listbox"
