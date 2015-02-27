@@ -25,7 +25,15 @@ def enum_window_callback(hwnd, extra):
 def enum_child_callback(hwnd, extra):
     find_title = re.compile(re.escape(extra[0]))
     wintitle = win32gui.GetWindowText(hwnd)
-    print wintitle
+    winclass = win32gui.GetClassName(hwnd)
+    wintext = win32gui.GetWindowText(hwnd)
+    print "Title: " + wintitle + " Class: " + winclass + " Text: " + wintext
+    if winclass == "ComboLBox":
+        dlg_int = win32gui.GetDlgCtrlID(hwnd)
+        print "Found ID"
+        print dlg_int
+        dlg_text = win32gui.GetDlgItemText(hwnd,dlg_int)
+        print "Dlg_Int: " + dlg_int + " Dlg_Text: " + dlg_text
     matches = re.findall(find_title, wintitle)
     if len(matches)>0:
         global found
@@ -33,7 +41,7 @@ def enum_child_callback(hwnd, extra):
         found = True
         _child_hwnd = hwnd
         #print wintitle
-        return False # needed to stop enumerating through windows
+        #return False # needed to stop enumerating through windows
     else:
         found = False
 
@@ -52,7 +60,8 @@ if not found:
 (threadId, processId) = win32process.GetWindowThreadProcessId(_hwnd)
 try:
     find_child_window(threadId, "Preferences")
-except:
+except Exception as e:
+    print e
     pass # upon returning false in the enum_child_callback and error will be raised
 
 if not found:
@@ -63,7 +72,7 @@ print "Found preferences window"
 
 
 try:
-    _listbox1_hwnd = win32ui.FindWindow(None, r"Print")
+    _listbox1_hwnd = win32gui.FindWindowEx(_hwnd, None, "ListBox1", None)
     if _listbox1_hwnd == 0:
         raise Exception("Listbox1 wasn't found!")
 except Exception as e:
