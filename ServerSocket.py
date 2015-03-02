@@ -1,5 +1,6 @@
 from SimpleProtocol import send_msg, recv_msg, SimpleProtocolException
 import DatapageServerLayer
+import socket
 
 class ServerSocket:
 	def __init__(self):

@@ -9,7 +9,7 @@ class ClientGui:
 		
 		##### PARTS AND TRANSACTIONS WIDGETS #########
 		self.PartsListBox = Listbox(self.top, exportselection=0, width=60)
-		self.PartsListBox.bind('<<ListboxSelect', self.parts_click)
+		self.PartsListBox.bind('<<ListboxSelect>>', self.parts_click)
 		self.parts_contents = None # Initial request
 		
 		self.TransactionsListBox = Listbox(self.top, exportselection=0, width=60)
@@ -27,6 +27,7 @@ class ClientGui:
 		self.FolderLabel = Label(self.top, text="Folder to save in")
 		self.FileNameLabel = Label(self.top, text="Save as")
 		
+		# initialize GUI with Parts/Transactions screen
 		self.draw_transactions_screen()
 		
 	def draw_save_as_screen(self):
@@ -68,6 +69,7 @@ class ClientGui:
 
 	def fill_parts_transactions(self, parts, transactions):
 		self.parts_contents = parts
+		self.transactions_contents = transactions
 		# fill parts box
 		for i in range(len(parts)):
 			self.PartsListBox.insert(i+1, parts[i])

@@ -24,7 +24,7 @@ class ClientMain:
 		self.gui.start_tkinter_thread()
 		
 		self.socket_layer = ClientSocket()
-		self.debug = True
+		self.debug = False
 		
 	def get_parts_transactions(self):
 		if (self.debug):
@@ -34,10 +34,8 @@ class ClientMain:
 		try:
 			info = self.socket_layer.initial_request()
 		except Exception as e:
-			print e.value
+			print e
 			return
 		self.gui.fill_parts_transactions(info["parts"], info["transactions"])
 	
-	def send_parts_transactions(self):
-
 main_program = ClientMain()

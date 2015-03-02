@@ -1,6 +1,6 @@
 
 from SimpleProtocol import send_msg, recv_msg, SimpleProtocolException
-
+import socket
 class ClientSocket:
 	def __init__(self):
 		self.connection = ('abrune', 10001) # Connection to Datapage PC
