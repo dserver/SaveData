@@ -17,6 +17,7 @@ class ClientGui:
 		
 		self.ConnectButton = Button(self.top, text="Connect", width=25) # Calls initial request
 		self.SendButton = Button(self.top, text="Send", width=25)
+		self.CloseButton = Button(self.top, text="Close Server", width=25)
 		
 		##### SAVE AND CANCEL WIDGETS #####
 		self.FolderListBox = Listbox(self.top, exportselection=0, width=30)
@@ -33,6 +34,7 @@ class ClientGui:
 	def draw_save_as_screen(self):
 		self.remove_transactions_screen()
 		self.FolderListBox.grid(row=1, column=1)
+		self.folders_contents = None
 		self.FileNameEntry.grid(row=2, column=1)
 		self.SaveButton.grid(row=0, column=0)
 		self.CancelButton.grid(row=0, column=1)
@@ -82,6 +84,9 @@ class ClientGui:
 		
 	def set_savebutton_command(self, func):
 		self.SaveButton.configure(command=func)
+	
+	def set_closebutton_command(self, func):
+		self.CloseButton.configure(command=func)
 		
 	def start_tkinter_thread(self):
 		tkinter_thread = threading.Thread(target=self.top.mainloop)
@@ -89,20 +94,33 @@ class ClientGui:
 
 	def parts_click(self, extra):
 		current_sel = self.PartsListBox.curselection()
-		current_i = current_sel[0]
+		current_i = current_sel[0] # holds the index of the selected item
 		current = self.parts_contents[current_i]
 		
-		# i now holds the part index corresponds to the transaction
-		# delete all previous transactions in the box
 		self.TransactionsListBox.delete(0, self.TransactionsListBox.size())
-		#print "Transaction box size: " + str(self.TransactionsListBox.size())
-		# add transactions for selected part
-		#print "transaction_contents[" + save_i + "] :" + self.transaction_contents[save_i]
-		for x in range(len(self.transactions_contents[current_i])):
-			#print "Adding to box..."
-			#print self.transactions_contents[current_i][x]
+		for x in range(len(self.transactions_contents[current_i])): # current_i index is transactions for part[current_i]
 			self.TransactionsListBox.insert(x+1, self.transactions_contents[current_i][x])
+	
+	# Handles logic of sending part and transactions selections to the server
+	def get_parts_transactions(self):
+		p = self.PartsListBox.curselection[0]
+		t = self.TransactionsListBox.curselection[0]
+		return (self.parts_contents[p], self.transactions_contents[t])
+	
+	
+	def populate_folders(self, folders):
+		self.folders_contents = folders
+		for i in xrange(len(folders)):
+			self.FolderListBox.insert(i+1, folders[i])
+	
+	# retrieves the filename to save as and the folder to save in
+	def get_save_as_data(self):
+		folder_i = self.FolderListBox.curselection()[0]
+		folder = self.folders_contents[folder_i]
 		
+		filename = self.FileNameEntry.get()
+		
+		return (filename, folder)
 		
 if __name__ == "__main__":
 	g = ClientGui()

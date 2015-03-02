@@ -32,6 +32,73 @@ class ClientSocket:
 			return
 		
 		return info
+		
+	def send_parts_transactions(self, parts, transactions):
+		try:
+			data = {
+				"part":parts,
+				"transaction":transactions
+			}
+			
+			pickled_data = pickle.dumps(data) # the data to be sent to the server is now pickled
+			
+		except (pickle.UnpicklingError, AttributeError, EOFError, IndexError, RuntimeError, TypeError) as e:
+			print "Error in client socket sending parts/transactions"
+			print e
+			
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s.connect(self.connection)
+		except socket.error as e:
+			print "Error creating socket. ClientSocket.send_parts_transactions."
+			print e
+			
+		try:
+			send_msg("Part and Transaction")
+			send_msg(pickled_data) # Bombs away!
+		except SimpleProtocolException as e:
+			print e
+	
+	def recv_save_folders(self):
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s.connect(self.connection)
+		except socket.error as e:
+			print "Error creating socket. ClientSocket.send_parts_transactions."
+			print e
+		
+		try:
+			"Print receiving folders..."
+			folders = recv_msg(s)
+		except Exception as e:
+				print e
+		return folders
+	
+	def save_as(self, filename, folder):
+		try:
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			s.connect(self.connection)
+		except socket.error as e:
+			print "Error creating socket. ClientSocket.send_parts_transactions."
+			print e
+		
+		try:
+			data = {
+				"filename":filename,
+				"folder":folder
+			}
+			
+			data_pickled = pickle.dumps(data)
+			
+		except (pickle.UnpicklingError, AttributeError, EOFError, IndexError, RuntimeError, TypeError) as e:
+			print e
+		
+		try:
+			send_msg("Save As")
+			send_msg(data_pickled)
+		except SimpleProtocolException as e:
+			print e
+		
 	def close_server(self):
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect(self.connection)
