@@ -42,18 +42,9 @@ def recv_msg(sock):
 # ascii representation. This will change it to its integer representation
 def msg_to_int(client_msg):
 	try:
-		x = ""
-		leading = False
-		for i in range(len(client_msg)):
-			if (client_msg[i] != "0"):
-				leading = True
-				x += client_msg[i]
-			if (client_msg[i] == "0" and leading):
-				x += client_msg[i]
-		msg = int(x)
-		return msg
+		return int(client_msg)
 	except (RuntimeError, TypeError, NameError) as e:
-		print e.value
+		print e
 		raise(SimpleProtocolException("msg_to_int encountered a fatal error"))
 	
 # When you want to send a message, pass the length of the string
