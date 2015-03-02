@@ -20,6 +20,8 @@ class ServerSocket:
 			if (command == "Init"):
 				info = DatapageServerLayer.InitialRequest()
 				send_msg(pickle.dumps(info), shared_socket)
+			if (command == "Exit"):
+                                break
 		
 		s.close()
 		

@@ -87,19 +87,21 @@ class ClientGui:
 		tkinter_thread = threading.Thread(target=self.top.mainloop)
 		tkinter_thread.start()
 
-	def parts_click(self):
-		current = self.PartsListBox.curselection()
-		for i in range(len(self.parts_contents)):
-			if self.parts_contents[i] == current:
-				break
+	def parts_click(self, extra):
+		current_sel = self.PartsListBox.curselection()
+		current_i = current_sel[0]
+		current = self.parts_contents[current_i]
 		
 		# i now holds the part index corresponds to the transaction
 		# delete all previous transactions in the box
 		self.TransactionsListBox.delete(0, self.TransactionsListBox.size())
-		
+		#print "Transaction box size: " + str(self.TransactionsListBox.size())
 		# add transactions for selected part
-		for x in range(len(self.transactions_contents[i])):
-			self.TransactionsListBox.insert(x+1, self.transactions_contents[i][x])
+		#print "transaction_contents[" + save_i + "] :" + self.transaction_contents[save_i]
+		for x in range(len(self.transactions_contents[current_i])):
+			#print "Adding to box..."
+			#print self.transactions_contents[current_i][x]
+			self.TransactionsListBox.insert(x+1, self.transactions_contents[current_i][x])
 		
 		
 if __name__ == "__main__":

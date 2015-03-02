@@ -13,7 +13,7 @@ def InitialRequest():
 	transactions_list = []
 	parts_number_items = datapage.Spreadsheet.ComboBox1.ItemCount()
 	for i in range(0,parts_number_items):
-		datapage.Spreadsheet.ComboBox1.Select(0)
+		datapage.Spreadsheet.ComboBox1.Select(i)
 		transaction = datapage.Spreadsheet.ListBox3.ItemTexts()
 		info["transactions"].append(transaction)
 	return info

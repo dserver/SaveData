@@ -21,6 +21,7 @@ class ClientMain:
 	def __init__(self):
 		self.gui = ClientGui()
 		self.gui.set_connectbutton_command(self.get_parts_transactions)
+		self.gui.set_sendbutton_command(self.closeserver)
 		self.gui.start_tkinter_thread()
 		
 		self.socket_layer = ClientSocket()
@@ -37,5 +38,7 @@ class ClientMain:
 			print e
 			return
 		self.gui.fill_parts_transactions(info["parts"], info["transactions"])
+	def closeserver(self):
+		self.socket_layer.close_server()
 	
 main_program = ClientMain()
