@@ -19,17 +19,15 @@ class ClientSocket:
 			
 			# The server will send lists of lines that are in the parts box
 			# and the transactions box
-			parts_pickled = recv_msg(s)
-			transactions_pickled = recv_msg(s)
+			info_pickled = recv_msg(s)
 		except SimpleProtocolException as e:
 			print e.value
 			return
 			
 		try:
-			parts = pickle.loads(parts_pickled)
-			transactions = pickle.loads(transactions_pickled)
+			info = pickle.loads(info_pickled)
 		except (pickle.UnpicklingError, AttributeError, EOFError, IndexError, RuntimeError, TypeError) as e:
 			print e.value
 			return
 		
-		return (parts, transactions)
+		return info

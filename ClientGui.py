@@ -1,6 +1,7 @@
 import threading
 from Tkinter import *
 import Tkinter
+
 class ClientGui:
 	def __init__(self):
 		self.top = Tkinter.Tk() # Tkinter top window object
@@ -8,6 +9,7 @@ class ClientGui:
 		
 		##### PARTS AND TRANSACTIONS WIDGETS #########
 		self.PartsListBox = Listbox(self.top, exportselection=0, width=60)
+		self.PartsListBox.bind('<<ListboxSelect', self.parts_click)
 		self.parts_contents = None # Initial request
 		
 		self.TransactionsListBox = Listbox(self.top, exportselection=0, width=60)
@@ -65,13 +67,10 @@ class ClientGui:
 		self.TransactionsLabel.grid_remove()
 
 	def fill_parts_transactions(self, parts, transactions):
+		self.parts_contents = parts
 		# fill parts box
 		for i in range(len(parts)):
 			self.PartsListBox.insert(i+1, parts[i])
-		
-		# fill transactions box
-		for i in range(len(transactions)):
-			self.TransactionsListBox.insert(i+1, transactions[i])
 	
 	def set_connectbutton_command(self, func):
 		self.ConnectButton.configure(command=func)
@@ -86,6 +85,21 @@ class ClientGui:
 		tkinter_thread = threading.Thread(target=self.top.mainloop)
 		tkinter_thread.start()
 
+	def parts_click(self):
+		current = self.PartsListBox.curselection()
+		for i in range(len(self.parts_contents)):
+			if self.parts_contents[i] == current:
+				break
+		
+		# i now holds the part index corresponds to the transaction
+		# delete all previous transactions in the box
+		self.TransactionsListBox.delete(0, self.TransactionsListBox.size())
+		
+		# add transactions for selected part
+		for x in range(len(self.transactions_contents[i])):
+			self.TransactionsListBox.insert(x+1, self.transactions_contents[i][x])
+		
+		
 if __name__ == "__main__":
 	g = ClientGui()
 	g.start_tkinter_thread()

@@ -1,4 +1,5 @@
 from SimpleProtocol import send_msg, recv_msg, SimpleProtocolException
+import DatapageServerLayer
 
 class ServerSocket:
 	def __init__(self):
@@ -16,8 +17,8 @@ class ServerSocket:
 			command = recv_msg(shared_socket)
 			
 			if (command == "Init"):
-				pass
-			
+				info = DatapageServerLayer.InitialRequest()
+				send_msg(pickle.dumps(info), shared_socket)
 		
 		s.close()
 		

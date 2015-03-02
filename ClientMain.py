@@ -32,11 +32,11 @@ class ClientMain:
 			return
 		
 		try:
-			(parts, transactions) = self.socket_layer.initial_request()
+			info = self.socket_layer.initial_request()
 		except Exception as e:
 			print e.value
 			return
-		self.gui.fill_parts_transactions(parts, transactions)
+		self.gui.fill_parts_transactions(info["parts"], info["transactions"])
 	
 	def send_parts_transactions(self):
 
