@@ -36,14 +36,21 @@ def GetSaveFolders():
 	datapage = application.Application()
 	datapage.connect_(title_re="DataPage for Windows")
 	datapage.DataPage.MenuSelect("File -> Save to File -> Save Current Report")
-	folders = datapage.DataPage["Save As"].ListBox2.GetTexts()
-	datapage.DataPage["Save As"].Cancel.Click()
+	datapage.connect_(title_re="Save As")
+	print "Attempting to get folders...(datapage layer)"
+	folders = datapage["Save As"].ListBox2.ItemTexts()
+	datapage["Save As"].Cancel.Click()
+	print "Got folders, returning to socket layer"
 	return folders
 	
 def SaveAs(filename, folder):
 	datapage = application.Application()
 	datapage.connect_(title_re="DataPage for Windows")
 	datapage.DataPage.MenuSelect("File -> Save to File -> Save Current Report")
-	datapage.DataPage["Save As"].EditBox1.SetEditText(filename)
-	datapage.DataPage["Save As"].ListBox2.Select(folder)
-	datapage.DataPage["Save As"].Ok.Click()
+	datapage.connect_(title_re="Save As")
+	print filename
+	print folder
+	datapage["Save As"].editbox1.SetEditText(filename)
+	datapage["Save As"].listbox2.Select(folder)
+	datapage["Save As"].listbox2.DoubleClick(coords=(10,80))
+	datapage["Save As"].Ok.Click()

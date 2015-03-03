@@ -17,6 +17,12 @@ class ClientGui:
 		
 		self.ConnectButton = Button(self.top, text="Connect", width=25) # Calls initial request
 		self.SendButton = Button(self.top, text="Send", width=25)
+		
+		self.PartsLabel = Label(self.top, text="Parts")
+		self.TransactionsLabel = Label(self.top, text="Transactions")
+		
+		if __name__ == "__main__":
+			self.SendButton.configure(command=self.draw_save_as_screen)
 		self.CloseButton = Button(self.top, text="Close Server", width=25)
 		
 		##### SAVE AND CANCEL WIDGETS #####
@@ -40,6 +46,10 @@ class ClientGui:
 		self.CancelButton.grid(row=0, column=1)
 		self.FolderLabel.grid(row=1, column=0)
 		self.FileNameLabel.grid(row=2, column=0)
+		
+				
+		if __name__ == "__main__":
+			self.populate_folders(["folder1", "folder2", "folder3"])
 	
 	def remove_save_screen(self):
 		self.FolderListBox.grid_remove()
@@ -48,18 +58,19 @@ class ClientGui:
 		self.CancelButton.grid_remove()
 		self.FolderLabel.grid_remove()
 		self.FileNameLabel.grid_remove()
+
 		
 	def draw_transactions_screen(self):
-		if (self.screen_state != "transactions"):
-			self.remove_save_screen()
+		#if (self.screen_state != "transactions"):
+		#	self.remove_save_screen()
 		
 		# GRID DATA
 		self.PartsListBox.grid(row=3, column=0)
 		self.TransactionsListBox.grid(row=3,column=2)
 		self.ConnectButton.grid(row=0, column=0)
 		self.SendButton.grid(row=0, column=2)
-		self.PartsLabel = Label(self.top, text="Parts").grid(row=1, column=0)
-		self.TransactionsLabel = Label(self.top, text="Transactions").grid(row=1, column=2)
+		self.PartsLabel.grid(row=1, column=0)
+		self.TransactionsLabel.grid(row=1, column=2)
 		
 	def remove_transactions_screen(self):
 		self.PartsListBox.grid_remove()
@@ -103,9 +114,11 @@ class ClientGui:
 	
 	# Handles logic of sending part and transactions selections to the server
 	def get_parts_transactions(self):
-		p = self.PartsListBox.curselection[0]
-		t = self.TransactionsListBox.curselection[0]
-		return (self.parts_contents[p], self.transactions_contents[t])
+		p = self.PartsListBox.curselection()
+		t = self.TransactionsListBox.curselection()
+		print self.parts_contents[p[0]]
+		#return (self.parts_contents[p[0]], self.transactions_contents[t[0]])
+		return (p[0], t[0])
 	
 	
 	def populate_folders(self, folders):

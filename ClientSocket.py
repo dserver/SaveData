@@ -2,9 +2,11 @@
 from SimpleProtocol import send_msg, recv_msg, SimpleProtocolException
 import socket
 import cPickle as pickle
+import time
+
 class ClientSocket:
 	def __init__(self):
-		self.connection = ('abrune', 10002) # Connection to Datapage PC
+		self.connection = ('abrune', 10004) # Connection to Datapage PC
 		
 	# Receives the parts and transactions data from Datapage
 	def initial_request(self):
@@ -54,24 +56,27 @@ class ClientSocket:
 			print e
 			
 		try:
-			send_msg("Part and Transaction")
-			send_msg(pickled_data) # Bombs away!
+			send_msg("Part and Transaction", s)
+			send_msg(pickled_data, s) # Bombs away!
 		except SimpleProtocolException as e:
 			print e
 	
 	def recv_save_folders(self):
 		try:
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			#s.setdefaulttimeout(8)
 			s.connect(self.connection)
+
 		except socket.error as e:
 			print "Error creating socket. ClientSocket.send_parts_transactions."
 			print e
 		
 		try:
-			"Print receiving folders..."
-			folders = recv_msg(s)
+			send_msg("Recv Save Folders", s)
+			folders_pickled = recv_msg(s)
+			folders = pickle.loads(folders_pickled)
 		except Exception as e:
-				print e
+			print e
 		return folders
 	
 	def save_as(self, filename, folder):
@@ -94,12 +99,12 @@ class ClientSocket:
 			print e
 		
 		try:
-			send_msg("Save As")
-			send_msg(data_pickled)
+			send_msg("Save As", s)
+			send_msg(data_pickled, s)
 		except SimpleProtocolException as e:
 			print e
 		
 	def close_server(self):
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect(self.connection)
 		send_msg("Exit", s)

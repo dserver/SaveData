@@ -35,7 +35,7 @@ def recv_msg(sock):
 		msg = sock.recv(mli)
 		return msg
 	except socket.error as e:
-		print e.value
+		print e
 		raise(SimpleProtocolException("recv_msg encountered a socket error"))
 
 # When a message is sent over the wire, it will be a 4 byte

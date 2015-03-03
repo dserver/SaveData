@@ -16,13 +16,13 @@
 
 from ClientGui import ClientGui
 from ClientSocket import ClientSocket
-
+import time
 class ClientMain:
 	def __init__(self):
 		self.gui = ClientGui()
 		self.gui.set_connectbutton_command(self.get_parts_transactions)
-		#self.gui.set_sendbutton_command(self.send_parts_transactions)
-		self.gui.set_sendbutton_command(self.closeserver)
+		self.gui.set_sendbutton_command(self.send_parts_transactions)
+		#self.gui.set_sendbutton_command(self.closeserver)
 		self.gui.set_savebutton_command(self.save_as)
 		self.gui.set_closebutton_command(self.closeserver)
 		self.gui.start_tkinter_thread()
@@ -46,13 +46,17 @@ class ClientMain:
 	# Handles sending users selection on which part and transaction to save
 	def send_parts_transactions(self):
 		try:
-			self.gui.draw_save_as_screen()
 			(part_selection, transaction_selection) = self.gui.get_parts_transactions()
+			self.gui.remove_transactions_screen()
+			self.gui.draw_save_as_screen()
 			self.socket_layer.send_parts_transactions(part_selection, transaction_selection)
-			folders = self.socket_layer.recv_save_folders()
+			time.sleep(1)
+			folders = False
+			while not folders:
+				folders = self.socket_layer.recv_save_folders()
 			self.gui.populate_folders(folders)
 		except Exception as e:
-			print "Error in send_parts_transactions. Error..."
+			print "ClientMain.send_parts_transactions"
 			print e
 			
 	def save_as(self):
