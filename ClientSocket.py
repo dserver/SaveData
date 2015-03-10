@@ -6,7 +6,7 @@ import time
 
 class ClientSocket:
 	def __init__(self):
-		self.connection = ('abrune', 10004) # Connection to Datapage PC
+		self.connection = ('abrune', 10002) # Connection to Datapage PC
 		
 	# Receives the parts and transactions data from Datapage
 	def initial_request(self):
